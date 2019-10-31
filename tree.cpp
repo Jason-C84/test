@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
     void PreOrderTree();
     void PostOrderTree();
 
+    void LevelOrderTree();
 private:
     void insertNode(Node* current, int data);
     void insertNode1(Node* current, int data);
@@ -201,6 +203,26 @@ void Tree::PostOrderTree(Node *current){
     }
 }
 
+void Tree::LevelOrderTree(){
+    queue<Node *> q;
+    Node* ptr = NULL;
+
+    q.push(root);
+    while(q.empty() != true){
+        ptr = q.front();
+        q.pop();
+        cout << ptr->data << endl;
+        if(ptr->left != NULL){
+            q.push(ptr->left);
+        }
+        if(ptr->right != NULL){
+            q.push(ptr->right);
+        }
+    }
+}
+
+
+
 int main(int argc, char *argv[]){
     int num[] = {5,3,7,2,4,6,8,1,9};
     cout << "before tree" << endl;
@@ -212,6 +234,8 @@ int main(int argc, char *argv[]){
     tree.PreOrderTree();
     cout << "PostOrderTree:" << endl;
     tree.PostOrderTree();
+    cout << "LevelOrderTree:" << endl;
+    tree.LevelOrderTree();
 
     return 0;
 }
