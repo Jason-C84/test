@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -22,10 +23,13 @@ public:
     void deleteNode(int data);
 
     void InOrderTree();
+    void InOrderTree1();
     void PreOrderTree();
     void PostOrderTree();
 
     void LevelOrderTree();
+
+    bool IsBiTree();
 private:
     void insertNode(Node* current, int data);
     void insertNode1(Node* current, int data);
@@ -179,6 +183,24 @@ void Tree::PostOrderTree(){
     }
 }
 
+void Tree::InOrderTree1(){
+    stack<Node *> s;
+    Node *p = root;
+
+    while(p != NULL || !s.empty()){
+        while(p != NULL){
+            s.push(p);
+            p = p->left;
+        }
+        if(!s.empty()){
+            p = s.top();
+            s.pop();
+            cout << p->data << endl;
+            p = p->right;
+        }
+    }
+}
+
 void Tree::InOrderTree(Node *current){
     if(current != NULL){
         InOrderTree(current->left);
@@ -221,7 +243,28 @@ void Tree::LevelOrderTree(){
     }
 }
 
+bool Tree::IsBiTree(){
+    stack<Node *> s;
+    Node *p = root;
+    int lastvalue = 0;
 
+    while(p != NULL || !s.empty()){
+        while(p != NULL){
+            s.push(p);
+            p = p->left;
+        }
+        if(!s.empty()){
+            p = s.top();
+            s.pop();
+            if(p->data > lastvalue){
+                lastvalue  = p->data;
+            }else{
+                return false;
+            }
+            p = p->right;
+        }
+    }
+}
 
 int main(int argc, char *argv[]){
     int num[] = {5,3,7,2,4,6,8,1,9};
@@ -236,6 +279,13 @@ int main(int argc, char *argv[]){
     tree.PostOrderTree();
     cout << "LevelOrderTree:" << endl;
     tree.LevelOrderTree();
-
+    cout << "InOrderTree1:" << endl;
+    tree.InOrderTree1();
+    //=================================
+    Node *node = tree.searchNode(4);
+    node->data = 1;
+    cout << "IsBiTree = " << ((tree.IsBiTree() == true)?"yes":"no") << endl;
+    node->data = 4;
+    cout << "IsBiTree = " << ((tree.IsBiTree() == true)?"yes":"no") << endl;
     return 0;
 }
