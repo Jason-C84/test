@@ -14,9 +14,9 @@
 
             int inlen=in.size();
 
-            if(inlen==0)
-
+            if(inlen==0){
                 return NULL;
+            }
 
             vector<int> left_pre,right_pre,left_in,right_in;
 
