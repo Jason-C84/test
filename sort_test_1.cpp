@@ -89,6 +89,37 @@ void SelectSort(int num[], int len){
     }
 }
 
+void Swap(int a[], int from, int to){
+    int temp = a[from];
+    a[from] = a[to];
+    a[to] = temp;
+}
+
+void HeapAdjust(int a[], int from, int to){
+    int i = 0;
+    int temp = a[from];
+    for(i = 2*from+1; i <= to; i = 2*i+1){
+        if(i < to && a[i] < a[i+1]){
+            i++;
+        }
+        if(temp > a[i]){
+            break;
+        }
+        a[from] = a[i];
+        from = i;
+    }
+    a[from] = temp;
+}
+
+void HeapSort(int a[], int len){
+    for(int i = len/2-1; i >= 0; i--){
+        HeapAdjust(a, i, len-1);
+    }
+    for(int i = len-1; i >= 0; i--){
+        Swap(a, 0, i);
+        HeapAdjust(a, 0, i-1);
+    }
+}
 
 void print(int a[], int len){
     for(int i = 0; i < len; i++){
@@ -104,7 +135,8 @@ int main(int argc, char *argv[]){
     //QuickSort(num, 0, 8);
     //InsertSort(num, 9);
     //ShellSort(num, 9);
-    SelectSort(num, 9);
+    //SelectSort(num, 9);
+    HeapSort(num, 9);
     print(num, 9);
     return 0;
 }
