@@ -121,6 +121,65 @@ void HeapSort(int a[], int len){
     }
 }
 
+void Merge(int a[], int *temp, int aStart, int mid, int aEnd){
+    int iStart = aStart;
+    int iEnd = mid - 1;
+    int jStart = mid;
+    int jEnd = aEnd;
+
+    int index = iStart;
+    int arrlen = jEnd - iStart + 1;
+
+    while(iStart <= iEnd && jStart <= jEnd){
+        if(a[iStart] < a[jStart]){
+            temp[index] = a[iStart];
+            index++;
+            iStart++;
+        }else{
+            temp[index] = a[jStart];
+            index++;
+            jStart++;
+        }
+    }
+
+    while(iStart <= iEnd){
+        temp[index] = a[iStart];
+        index++;
+        iStart++;
+    }
+
+    while(jStart <= jEnd){
+        temp[index] = a[jStart];
+        index++;
+        jStart++;
+    }
+
+    for(int i = 0; i < arrlen; i++,jEnd--){
+        a[jEnd] = temp[jEnd];
+    }
+}
+
+void mSort(int a[], int *temp, int low, int high){
+
+    if(low >= high){
+        return;
+    }
+    int mid = (low+high)/2;
+
+    mSort(a, temp, low, mid);
+    mSort(a, temp, mid+1, high);
+    Merge(a, temp, low, mid+1, high);
+
+}
+
+void MergeSort(int a[], int len){
+    int *temp = new int[len];
+    if(temp != NULL){
+        mSort(a, temp, 0, len-1);
+        delete []temp;
+    }
+}
+
 void print(int a[], int len){
     for(int i = 0; i < len; i++){
         cout << a[i] << "\t";
@@ -136,7 +195,8 @@ int main(int argc, char *argv[]){
     //InsertSort(num, 9);
     //ShellSort(num, 9);
     //SelectSort(num, 9);
-    HeapSort(num, 9);
+    //HeapSort(num, 9);
+    MergeSort(num, 9);
     print(num, 9);
     return 0;
 }
